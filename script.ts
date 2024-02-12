@@ -61,7 +61,7 @@ function updatePagination(totalRepos: number): void {
 		// Add event listener to each page button
 		pageButton.addEventListener('click', () => {
 			currentPage = i;
-			const githubReposData: any[] = JSON.parse(localStorage.getItem(`${myParam}Repos`));
+			const githubReposData: any[] = JSON.parse(localStorage.getItem(`${myParam}Repos`) || '{}');
 			displayRepos(githubReposData);
 		});
 
@@ -72,7 +72,7 @@ function updatePagination(totalRepos: number): void {
 // Function to change repositories per page
 function changeReposPerPage(value: string): void {
 	reposPerPage = parseInt(value, 10);
-	const githubReposData: any[] = JSON.parse(localStorage.getItem(`${myParam}Repos`));
+	const githubReposData: any[] = JSON.parse(localStorage.getItem(`${myParam}Repos`) || '{}');
 	displayRepos(githubReposData);
 }
 
@@ -119,10 +119,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	Promise.all([fetchUserData(myParam), fetchUserData(`${myParam}/repos`)])
 		.then(([userData, reposData]) => {
 			// Populate user information
-			const userProfilePicture: HTMLImageElement | null = document.getElementById('userProfilePicture');
+			const userProfilePicture: HTMLImageElement | null = document.getElementById('userProfilePicture') as HTMLImageElement;
 			const usernameElement: HTMLElement | null = document.getElementById('username');
 			const userBio: HTMLElement | null = document.getElementById('userBio');
-			const githubProfileLink: HTMLAnchorElement | null = document.getElementById('githubProfileLink');
+			const githubProfileLink: HTMLAnchorElement | null = document.getElementById('githubProfileLink') as HTMLAnchorElement;
 			if (userProfilePicture) userProfilePicture.src = userData?.avatar_url || 'placeholder_image_url';
 			if (usernameElement) usernameElement.innerText = userData?.login || 'Username';
 			if (userBio) userBio.innerText = userData?.bio || 'No bio available';
